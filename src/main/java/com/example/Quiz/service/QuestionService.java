@@ -30,20 +30,32 @@ public class QuestionService {
     }
 
     public ResponseEntity<String> addQuestion(Question question) {
+        question.setCategory(question.getCategory().toLowerCase());
         questionDAO.save(question);
+     //   System.out.println(question.get)
         return new ResponseEntity<>("Added successfully", HttpStatus.CREATED);
     }
 
     public boolean doesExists(int id){
-        return true;
+        return questionDAO.existsById(id);
     }
-    public String updateQuestion(Question question, int id){
-
-        return "success";
+    public String updateQuestion(Question newQuestion, int id){
+        if(doesExists(id)) {
+            questionDAO.save(newQuestion);
+            return "success";
+        }
+        else{
+            return "Question with id '"+id+"' does not exists to update.";
+        }
     }
 
     public String deleteQuestion(int id) {
-        questionDAO.deleteById(id);
-        return "success";
+        if(doesExists(id)) {
+            questionDAO.deleteById(id);
+            return "success";
+        }
+        else{
+            return "Question with id '"+id+"' does not exists to delete.";
+        }
     }
 }

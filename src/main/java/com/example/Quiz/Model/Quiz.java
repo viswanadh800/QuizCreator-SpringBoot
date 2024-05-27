@@ -5,15 +5,31 @@ import lombok.Data;
 
 import java.util.List;
 
-@Data
+
 @Entity
 public class Quiz {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String title;
+//    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+//    @JoinTable(name="quiz_questions",
+//    joinColumns = {@JoinColumn(name="quiz_id", referencedColumnName = "id")},
+//            inverseJoinColumns = {@JoinColumn(name="questions_id", referencedColumnName = "id")}
+//    )
     @ManyToMany
     private List<Question> questions;
+
+    public Quiz() {
+    }
+
+    public Quiz(int id, String title, List<Question> questions) {
+        this.id = id;
+        this.title = title;
+        this.questions = questions;
+    }
+
+
 
     public int getId() {
         return id;
